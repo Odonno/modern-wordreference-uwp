@@ -1,0 +1,78 @@
+﻿<Page
+    x:Class="ModernWordreference.Views.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernWordreference.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <PaneThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{ThemeResource ApplicationPageBackgroundBrush}">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Large">
+                    <VisualState.Setters>
+                        <Setter Target="PageTitle.FontSize" Value="46" />
+                    </VisualState.Setters>
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <StackPanel Margin="10 0" Orientation="Vertical">
+            <TextBlock x:Name="PageTitle" FontSize="36"
+                       Style="{StaticResource HeaderTextBlockStyle}">
+                About
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap">
+                Modern WordReference is an unofficial app based on WordReference.com.
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap">           
+                The app is an online dictionary that allows you to make translations in multiple languages.
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" Margin="0 20 0 0">
+                <Run>The app is made with</Run>
+                <Run FontFamily="Segoe MDL2 Assets">&#xE0A5;</Run>
+                <Run>by two French guys :</Run>
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" Margin="0 10 0 0" FontSize="26">David Bottiau</TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                @Odonno
+            </TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                Windows Developer, Product Innovator
+            </TextBlock>
+            <TextBlock FontStyle="Italic">
+                if (you.like) then 'I am happy ! :)'
+            </TextBlock>
+
+            <TextBlock TextWrapping="Wrap" Margin="0 10 0 0" FontSize="26">Corentin Miquée</TextBlock>
+            <TextBlock TextWrapping="Wrap">
+                @CorentinMiq
+            </TextBlock>
+            <TextBlock>
+                UI designer
+            </TextBlock>
+            <TextBlock FontStyle="Italic">
+                This page could be more beautiful...
+            </TextBlock>
+
+            <TextBlock x:Name="AppVersionText" TextWrapping="Wrap" Margin="0 20 0 0">
+                v1.0.0
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

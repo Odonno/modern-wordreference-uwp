@@ -1,0 +1,232 @@
+﻿<Page
+    x:Class="ModernWordreference.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ModernWordreference"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <CollectionViewSource x:Name="TranslationResultSource" IsSourceGrouped="true" />
+    </Page.Resources>
+
+    <Page.Transitions>
+        <TransitionCollection>
+            <NavigationThemeTransition />
+        </TransitionCollection>
+    </Page.Transitions>
+
+    <Page.TopAppBar>
+        <CommandBar Background="{StaticResource ApplicationPageBackgroundBrush}">
+            <AppBarButton Icon="Help" Label="About" Click="About_Click" />
+
+            <AppBarButton x:Name="FeedbackButton" Label="Feedback" Click="Feedback_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE939;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <AppBarButton Label="Love" Click="Love_Click">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE00B;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.TopAppBar>
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
+        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Large">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectDictionaryButton.FontSize" Value="36" />
+                                        <Setter Target="SwitchDictionaryButton.FontSize" Value="36" />
+                                    </VisualState.Setters>
+
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="500" />
+                                    </VisualState.StateTriggers>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+        <ProgressBar x:Name="ProgressBar" Grid.Row="0"
+                     IsIndeterminate="True" Visibility="Collapsed"
+                     VerticalAlignment="Top" Foreground="White" />
+
+        <StackPanel x:Name="InfoPanel" Grid.Row="0" Background="White"
+                    RequestedTheme="Light" Padding="10" Visibility="Collapsed">
+            <TextBlock x:Name="KeyboardRequiredText"
+                       Foreground="{StaticResource ApplicationPageBackgroundBrush}"
+                       TextWrapping="Wrap" FontWeight="SemiBold" />
+
+            <Button Margin="0 5 0 0" Style="{StaticResource LightButtonStyle}"
+                    MinWidth="100" Click="CloseInfo_Click">
+                Got it
+            </Button>
+        </StackPanel>
+
+        <Grid x:Name="NewTranslationGrid" Grid.Row="1" MaxWidth="600">
+            <Grid Background="White" RequestedTheme="Light" Margin="10" Padding="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" BorderBrush="Gray" BorderThickness="0 0 0 1">
+                    <TextBlock Foreground="{StaticResource ApplicationPageBackgroundBrush}">
+                        New translation
+                    </TextBlock>
+                </Grid>
+
+                <Grid Grid.Row="1" Margin="0 10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- flags of current dictionary -->
+                    <Image x:Name="FromImage" Grid.RowSpan="2" Grid.Column="0" 
+                           Source="/Images/Flags/en.png" Stretch="Fill" />
+                    <Image x:Name="ToImage" Grid.RowSpan="2" Grid.Column="1" 
+                           Source="/Images/Flags/fr.png" Stretch="Fill" />
+
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2"
+                          RequestedTheme="Dark"
+                          Background="{StaticResource ApplicationPageBackgroundBrush}" Opacity="0.9">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>                        
+
+                        <!-- switch languages -->
+                        <Button Grid.Row="1" Grid.Column="0"
+                                x:Name="SwitchDictionaryButton"
+                                Click="SwitchDictionary_Click"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="24" HorizontalAlignment="Stretch">
+                            &#xE8AB;
+                        </Button>
+
+                        <!-- select dictionary -->
+                        <Button Grid.Row="1" Grid.Column="1"
+                                x:Name="SelectDictionaryButton"
+                                Click="SelectDictionary_Click"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="24" HorizontalAlignment="Stretch">
+                            &#xE8FD;
+                        </Button>
+                    </Grid>
+                </Grid>
+
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- input search with suggestions -->
+                    <AutoSuggestBox x:Name="WordTextBox" Grid.Column="0" Height="34"
+                                    PlaceholderText="Type a word to translate"
+                                    TextChanged="Search_TextChanged"
+                                    SuggestionChosen="Search_SuggestionChosen"
+                                    QuerySubmitted="Search_QuerySubmitted">
+                        <AutoSuggestBox.ItemTemplate>
+                            <DataTemplate>
+                                <!-- suggestions -->
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Image Source="{Binding Path=LanguageImagePath}" Width="20" Height="13" Stretch="Fill" />
+                                    <TextBlock Margin="5 0 0 0" Text="{Binding Path=Word}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </AutoSuggestBox.ItemTemplate>
+                    </AutoSuggestBox>
+
+                    <!-- button search -->
+                    <Button x:Name="SearchButton" Grid.Column="1" Click="Search_Click"
+                            FontFamily="Segoe MDL2 Assets" FontSize="20" Height="34"
+                            Style="{StaticResource LightButtonStyle}">
+                        &#xE724;
+                    </Button>
+                </Grid>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="TranslationInfoGrid" Visibility="Collapsed" Grid.Row="2" Background="White" RequestedTheme="Light">
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                <TextBlock x:Name="WordTranslatedText" FontSize="24" 
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource ApplicationPageBackgroundBrush}"
+                           Margin="5 -3 5 0">
+                        test
+                </TextBlock>
+
+                <TextBlock x:Name="PronunciationText" VerticalAlignment="Center"
+                           Foreground="{StaticResource ApplicationPageBackgroundBrush}" 
+                           Margin="5 0">
+                        /test/
+                </TextBlock>
+
+                <Button x:Name="AudioButton" Click="PlayAudio_Click" Visibility="Collapsed"
+                        VerticalAlignment="Center" Margin="5 0"
+                        FontFamily="Segoe MDL2 Assets" FontSize="24"
+                        Style="{StaticResource TransparentButtonStyle}">
+                    &#xE768;
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <StackPanel x:Name="NoTranslationPanel" Visibility="Visible" Grid.Row="3"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock TextAlignment="Center"
+                       Style="{StaticResource SubheaderTextBlockStyle}">
+                    Start with a word to translate
+            </TextBlock>
+
+            <TextBlock TextAlignment="Center" FontSize="48"
+                       Style="{StaticResource SubheaderTextBlockStyle}">
+                    ;)
+            </TextBlock>
+        </StackPanel>
+
+        <Grid x:Name="TranslationResultGrid" Visibility="Collapsed" Grid.Row="3">
+            <ListView x:Name="TranslationResultList"
+                      SelectionMode="None"
+                      ItemsSource="{Binding Source={StaticResource TranslationResultSource}}"
+                      ItemTemplate="{StaticResource TranslationResultItemTemplate}"
+                      ItemContainerStyle="{StaticResource TranslationResultContainerStyle}">
+                <ListView.GroupStyle>
+                    <GroupStyle HidesIfEmpty="True">
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Key}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+
+                        <GroupStyle.HeaderContainerStyle>
+                            <Style TargetType="ListViewHeaderItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </GroupStyle.HeaderContainerStyle>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+        </Grid>
+
+        <MediaElement x:Name="Audio" AutoPlay="False" Height="0" Width="0" />
+    </Grid>
+</Page>
