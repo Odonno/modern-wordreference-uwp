@@ -300,6 +300,9 @@ namespace ModernWordreference.Views
             // Reset text search
             WordTextBox.Text = string.Empty;
 
+            // Remove suggestions list
+            WordTextBox.ItemsSource = new List<string>();
+
             // End progress bar
             UpdateProgressBarUI(false);
 
