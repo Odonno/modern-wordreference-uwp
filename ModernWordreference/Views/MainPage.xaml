@@ -19,15 +19,18 @@
 
     <Page.TopAppBar>
         <CommandBar Background="{StaticResource ApplicationPageBackgroundBrush}">
-            <AppBarButton Icon="Help" Label="About" Click="About_Click" />
+            <AppBarButton x:Uid="/UIResources/HelpButton" 
+                          Icon="Help" Label="About" Click="About_Click" />
 
-            <AppBarButton x:Name="FeedbackButton" Label="Feedback" Click="Feedback_Click">
+            <AppBarButton x:Uid="/UIResources/FeedbackButton" x:Name="FeedbackButton" 
+                          Label="Feedback" Click="Feedback_Click">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE939;" />
                 </AppBarButton.Icon>
             </AppBarButton>
 
-            <AppBarButton Label="Love" Click="Love_Click">
+            <AppBarButton x:Uid="/UIResources/LoveButton"
+                          Label="Love" Click="Love_Click">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE00B;" />
                 </AppBarButton.Icon>
@@ -42,21 +45,21 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
-        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState x:Name="Large">
-                                    <VisualState.Setters>
-                                        <Setter Target="SelectDictionaryButton.FontSize" Value="36" />
-                                        <Setter Target="SwitchDictionaryButton.FontSize" Value="36" />
-                                    </VisualState.Setters>
 
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="500" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Name="Large">
+                    <VisualState.Setters>
+                        <Setter Target="SelectDictionaryButton.FontSize" Value="36" />
+                        <Setter Target="SwitchDictionaryButton.FontSize" Value="36" />
+                    </VisualState.Setters>
+
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <ProgressBar x:Name="ProgressBar" Grid.Row="0"
                      IsIndeterminate="True" Visibility="Collapsed"
@@ -68,10 +71,9 @@
                        Foreground="{StaticResource ApplicationPageBackgroundBrush}"
                        TextWrapping="Wrap" FontWeight="SemiBold" />
 
-            <Button Margin="0 5 0 0" Style="{StaticResource LightButtonStyle}"
-                    MinWidth="100" Click="CloseInfo_Click">
-                Got it
-            </Button>
+            <Button x:Uid="/UIResources/GotItButton" 
+                    Margin="0 5 0 0" Style="{StaticResource LightButtonStyle}"
+                    MinWidth="100" Click="CloseInfo_Click" Content="Got it" />
         </StackPanel>
 
         <Grid x:Name="NewTranslationGrid" Grid.Row="1" MaxWidth="600">
@@ -83,9 +85,9 @@
                 </Grid.RowDefinitions>
 
                 <Grid Grid.Row="0" BorderBrush="Gray" BorderThickness="0 0 0 1">
-                    <TextBlock Foreground="{StaticResource ApplicationPageBackgroundBrush}">
-                        New translation
-                    </TextBlock>
+                    <TextBlock x:Uid="/UIResources/NewTranslationText" 
+                               Foreground="{StaticResource ApplicationPageBackgroundBrush}"
+                               Text="New translation" />
                 </Grid>
 
                 <Grid Grid.Row="1" Margin="0 10">
@@ -111,7 +113,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
-                        </Grid.ColumnDefinitions>                        
+                        </Grid.ColumnDefinitions>
 
                         <!-- switch languages -->
                         <Button Grid.Row="1" Grid.Column="0"
@@ -140,7 +142,8 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- input search with suggestions -->
-                    <AutoSuggestBox x:Name="WordTextBox" Grid.Column="0" Height="34"
+                    <AutoSuggestBox x:Uid="/UIResources/WordTextBox" x:Name="WordTextBox"
+                                    Grid.Column="0" Height="34"
                                     PlaceholderText="Type a word to translate"
                                     TextChanged="Search_TextChanged"
                                     SuggestionChosen="Search_SuggestionChosen"
@@ -192,15 +195,14 @@
 
         <StackPanel x:Name="NoTranslationPanel" Visibility="Visible" Grid.Row="3"
                     VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock TextAlignment="Center"
-                       Style="{StaticResource SubheaderTextBlockStyle}">
-                    Start with a word to translate
-            </TextBlock>
+            <TextBlock x:Uid="/UIResources/StartTranslationText" 
+                       TextAlignment="Center"
+                       Style="{StaticResource SubheaderTextBlockStyle}"
+                       Text="Start with a word to translate" />
 
             <TextBlock TextAlignment="Center" FontSize="48"
-                       Style="{StaticResource SubheaderTextBlockStyle}">
-                    ;)
-            </TextBlock>
+                       Style="{StaticResource SubheaderTextBlockStyle}"
+                       Text=";)" />
         </StackPanel>
 
         <Grid x:Name="TranslationResultGrid" Visibility="Collapsed" Grid.Row="3">

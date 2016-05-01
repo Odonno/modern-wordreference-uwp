@@ -99,6 +99,26 @@
     </Content>
     <None Include="ModernWordreference_StoreKey.pfx" />
     <None Include="project.json" />
+    <PRIResource Include="Strings\it-IT\Resources.resw" />
+    <PRIResource Include="Strings\fr-FR\Resources.resw" />
+    <PRIResource Include="Strings\es-ES\Resources.resw" />
+    <PRIResource Include="Strings\de-DE\Resources.resw" />
+    <PRIResource Include="Strings\en-US\OldResources.resw" />
+    <PRIResource Include="Strings\it-IT\UIResources.resw" />
+    <PRIResource Include="Strings\it-IT\OldResources.resw" />
+    <PRIResource Include="Strings\it-IT\LanguageResources.resw" />
+    <PRIResource Include="Strings\fr-FR\UIResources.resw" />
+    <PRIResource Include="Strings\fr-FR\OldResources.resw" />
+    <PRIResource Include="Strings\fr-FR\LanguageResources.resw" />
+    <PRIResource Include="Strings\es-ES\UIResources.resw" />
+    <PRIResource Include="Strings\es-ES\OldResources.resw" />
+    <PRIResource Include="Strings\es-ES\LanguageResources.resw" />
+    <PRIResource Include="Strings\en-US\UIResources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\en-US\LanguageResources.resw" />
+    <PRIResource Include="Strings\de-DE\UIResources.resw" />
+    <PRIResource Include="Strings\de-DE\OldResources.resw" />
+    <PRIResource Include="Strings\de-DE\LanguageResources.resw" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

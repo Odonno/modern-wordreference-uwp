@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
@@ -32,6 +32,12 @@ namespace ModernWordreference.Views
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        #region Fields
+
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        #endregion
+
         #region Properties
 
         public Models.Dictionary CurrentDictionary { get; set; }
@@ -279,7 +285,7 @@ namespace ModernWordreference.Views
             if (searchResult == null)
             {
                 // Show toast notification that nothing was found
-                ServiceFactory.ToastNotification.SendText("The word you’re looking for doesn’t exist or can’t be found in the dictionary.", "search");
+                ServiceFactory.ToastNotification.SendText(_resourceLoader.GetString("WordDoesNotExist"), "search");
                 ServiceFactory.Analytics.TrackEvent("NotFound");
 
                 // End progress bar
@@ -353,11 +359,11 @@ namespace ModernWordreference.Views
         {
             // Set group key in each translation line
             var primaryTranslationsGroup = LastTranslation.PrimaryTranslations
-                .GroupBy(_ => "Primary translations");
+                .GroupBy(_ => _resourceLoader.GetString("PrimaryTranslations"));
             var additionalTranslationsGroup = LastTranslation.AdditionalTranslations
-                .GroupBy(_ => "Additional translations");
+                .GroupBy(_ => _resourceLoader.GetString("AdditionalTranslations"));
             var compoundFormsTranslationsGroup = LastTranslation.CompoundForms
-                .GroupBy(_ => "Compound forms");
+                .GroupBy(_ => _resourceLoader.GetString("CompoundForms"));
 
             // Fill collection view source with data
             TranslationResultSource.Source = primaryTranslationsGroup
@@ -394,10 +400,7 @@ namespace ModernWordreference.Views
         {
             if (NeedSpecificKeyboard)
             {
-                KeyboardRequiredText.Text =
-                    $"Note that you'll need a specific keyboard " +
-                    $"({CurrentDictionary.FromLanguage} keyboard) " +
-                    $"if you want to do some translations.";
+                KeyboardRequiredText.Text = string.Format(_resourceLoader.GetString("KeyboardRequired"), CurrentDictionary.FromLanguage);
                 InfoPanel.Visibility = Visibility.Visible;
             }
             else

@@ -15,46 +15,50 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{ThemeResource ApplicationPageBackgroundBrush}">
         <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup>
-            <VisualState x:Name="Large">
-                <VisualState.Setters>
-                    <Setter Target="PageTitle.FontSize" Value="46" />
-                </VisualState.Setters>
+            <VisualStateGroup>
+                <VisualState x:Name="Large">
+                    <VisualState.Setters>
+                        <Setter Target="PageTitle.FontSize" Value="46" />
+                    </VisualState.Setters>
 
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="500" />
-                </VisualState.StateTriggers>
-            </VisualState>
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-        
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <StackPanel Margin="10 0" Orientation="Vertical">
             <TextBlock x:Name="PageTitle" FontSize="36"
                        Style="{StaticResource HeaderTextBlockStyle}">
                 &lt;3
             </TextBlock>
 
-            <TextBlock TextWrapping="Wrap">
+            <TextBlock x:Uid="/UIResources/LikeAndCommentText"
+                       TextWrapping="Wrap">
                 If you like the app, please rate it and let us a comment.
             </TextBlock>
 
             <Button Margin="0 10" Click="RateApp_Click">
                 <TextBlock>                        
                     <Run FontFamily="Segoe MDL2 Assets">&#xE735;</Run>
-                    <Run>Rate this app</Run>
+                    <Run x:Uid="/UIResources/RateAppText">Rate this app</Run>
                 </TextBlock>
             </Button>
 
-            <TextBlock TextWrapping="Wrap">
+            <TextBlock x:Uid="/UIResources/LovePhraseOne"
+                       TextWrapping="Wrap">
                 Making great quality apps requires time and energy. If you use this app often and you really like it, do not hesitate to support
-                        the developer. It will encourage us to fix bugs, add more features and create more quality apps.
+                the developer. It will encourage us to fix bugs, add more features and create more quality apps.
             </TextBlock>
 
             <Button Click="BuyWord_Click" Margin="0 20 0 0" Padding="10" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <Button.Content>
                     <StackPanel Orientation="Vertical" Padding="0" Margin="0">
                         <TextBlock HorizontalAlignment="Left" FontWeight="Bold">The word</TextBlock>
-                        <TextBlock HorizontalAlignment="Left">The beginning of a new story.</TextBlock>
+                        <TextBlock x:Uid="/UIResources/TheWordIapContent" HorizontalAlignment="Left">
+                            The beginning of a new story.
+                        </TextBlock>
                         <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Margin="0 5 0 0">$1.99</TextBlock>
                     </StackPanel>
                 </Button.Content>
@@ -64,7 +68,9 @@
                 <Button.Content>
                     <StackPanel Orientation="Vertical" Padding="0" Margin="0">
                         <TextBlock HorizontalAlignment="Left" FontWeight="Bold">The page</TextBlock>
-                        <TextBlock HorizontalAlignment="Left">Just one left before the end of the book.</TextBlock>
+                        <TextBlock x:Uid="/UIResources/ThePageIapContent" HorizontalAlignment="Left">
+                            Just one left before the end of the book.
+                        </TextBlock>
                         <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Margin="0 5 0 0">$9.99</TextBlock>
                     </StackPanel>
                 </Button.Content>
@@ -74,7 +80,9 @@
                 <Button.Content>
                     <StackPanel Orientation="Vertical" Padding="0" Margin="0">
                         <TextBlock HorizontalAlignment="Left" FontWeight="Bold">The book</TextBlock>
-                        <TextBlock HorizontalAlignment="Left">A complete story.</TextBlock>
+                        <TextBlock x:Uid="/UIResources/TheBookIapContent" HorizontalAlignment="Left">
+                            A complete story.
+                        </TextBlock>
                         <TextBlock HorizontalAlignment="Right" FontWeight="Bold" Margin="0 5 0 0">$24.99</TextBlock>
                     </StackPanel>
                 </Button.Content>

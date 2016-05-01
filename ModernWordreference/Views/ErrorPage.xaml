@@ -23,18 +23,16 @@
         </VisualStateManager.VisualStateGroups>
 
         <StackPanel Margin="10 0" Orientation="Vertical">
-            <TextBlock x:Name="PageTitle" TextWrapping="Wrap" FontSize="36"
-                       Style="{StaticResource HeaderTextBlockStyle}">
-                An error occured :(
-            </TextBlock>
+            <TextBlock x:Uid="/UIResources/ErrorPageTitle" x:Name="PageTitle" 
+                       TextWrapping="Wrap" FontSize="36"
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       Text="An error occured :(" />
 
-            <TextBlock TextWrapping="Wrap" FontSize="26" Margin="0 20 0 0">
-                Please check your internet connection.
-            </TextBlock>
+            <TextBlock x:Uid="/UIResources/CheckInternetText" TextWrapping="Wrap" FontSize="26" Margin="0 20 0 0"
+                       Text="Please check your internet connection." />
 
-            <TextBlock TextWrapping="Wrap" FontSize="26">
-                But don't be afraid, we saved your last translation !
-            </TextBlock>
+            <TextBlock x:Uid="/UIResources/DontBeAfraidText" TextWrapping="Wrap" FontSize="26"
+                       Text="But don't be afraid, we saved your last translation !" />
         </StackPanel>
     </ScrollViewer>
 </Page>

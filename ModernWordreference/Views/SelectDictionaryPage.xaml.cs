@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -27,6 +28,7 @@ namespace ModernWordreference.Views
     {
         #region Fields
 
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("Resources");
         private bool _initializing;
 
         #endregion
@@ -127,10 +129,10 @@ namespace ModernWordreference.Views
             // Set group key in each dictionary
             var recommendGroup = RecommendedDictionaries
                 .Where(dictionary => Search == null || containsFromLanguage(dictionary, Search) || containsToLanguage(dictionary, Search))
-                .GroupBy(_ => "Recommended");
+                .GroupBy(_ => _resourceLoader.GetString("Recommended"));
             var defaultGroup = DefaultDictionaries
                 .Where(dictionary => Search == null || containsFromLanguage(dictionary, Search) || containsToLanguage(dictionary, Search))
-                .GroupBy(_ => "All dictionaries");
+                .GroupBy(_ => _resourceLoader.GetString("AllDictionaries"));
 
             // Fill collection view source with data
             DictionariesSource.Source = recommendGroup

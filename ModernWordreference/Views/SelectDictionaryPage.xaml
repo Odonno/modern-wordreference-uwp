@@ -36,7 +36,7 @@
             <VisualStateGroup>
                 <VisualState x:Name="Large">
                     <VisualState.Setters>
-                        <Setter Target="PageTitle.FontSize" Value="46" />
+                        <Setter Target="PageTitle.FontSize" Value="42" />
                     </VisualState.Setters>
 
                     <VisualState.StateTriggers>
@@ -47,12 +47,11 @@
         </VisualStateManager.VisualStateGroups>
 
         <StackPanel Grid.Row="0" Margin="10">
-            <TextBlock x:Name="PageTitle" FontSize="36"
-                       Style="{StaticResource HeaderTextBlockStyle}">
-                Choose a dictionary
-            </TextBlock>
-
-            <TextBox x:Name="SearchTextBox"
+            <TextBlock x:Uid="/UIResources/ChooseDictionaryTitle" x:Name="PageTitle"
+                       FontSize="36" Text="Choose a dictionary"
+                       Style="{StaticResource HeaderTextBlockStyle}" />
+            
+            <TextBox x:Uid="/UIResources/SearchTextBox" x:Name="SearchTextBox"
                      PlaceholderText="Search for a language"
                      InputScope="Search"
                      TextChanged="Search_TextChanged" />

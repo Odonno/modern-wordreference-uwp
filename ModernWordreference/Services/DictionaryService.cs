@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 
 namespace ModernWordreference.Services
 {
@@ -16,6 +17,7 @@ namespace ModernWordreference.Services
 
     public class DictionaryService : IDictionaryService
     {
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("LanguageResources");
         private List<Models.Dictionary> _dictionaries;
 
         public DictionaryService()
@@ -100,41 +102,41 @@ namespace ModernWordreference.Services
             switch (countryCode)
             {
                 case "en":
-                    return "english";
+                    return _resourceLoader.GetString("english");
                 case "fr":
-                    return "french";
+                    return _resourceLoader.GetString("french");
                 case "es":
-                    return "spanish";
+                    return _resourceLoader.GetString("spanish");
                 case "it":
-                    return "italian";
+                    return _resourceLoader.GetString("italian");
                 case "de":
-                    return "german";
+                    return _resourceLoader.GetString("german");
                 case "nl":
-                    return "dutch";
+                    return _resourceLoader.GetString("dutch");
                 case "sv":
-                    return "swedish";
+                    return _resourceLoader.GetString("swedish");
                 case "ru":
-                    return "russian";
+                    return _resourceLoader.GetString("russian");
                 case "pt":
-                    return "portuguese";
+                    return _resourceLoader.GetString("portuguese");
                 case "pl":
-                    return "polish";
+                    return _resourceLoader.GetString("polish");
                 case "ro":
-                    return "romanian";
+                    return _resourceLoader.GetString("romanian");
                 case "cz":
-                    return "czech";
+                    return _resourceLoader.GetString("czech");
                 case "gr":
-                    return "greek";
+                    return _resourceLoader.GetString("greek");
                 case "tr":
-                    return "turkish";
+                    return _resourceLoader.GetString("turkish");
                 case "zh":
-                    return "chinese";
+                    return _resourceLoader.GetString("chinese");
                 case "ja":
-                    return "japanese";
+                    return _resourceLoader.GetString("japanese");
                 case "ko":
-                    return "korean";
+                    return _resourceLoader.GetString("korean");
                 case "ar":
-                    return "arabic";
+                    return _resourceLoader.GetString("arabic");
                 default:
                     throw new NotSupportedException();
             }

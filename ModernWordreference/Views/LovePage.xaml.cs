@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
 using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -29,6 +30,12 @@ namespace ModernWordreference.Views
     /// </summary>
     public sealed partial class LovePage : Page
     {
+        #region Fields
+
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        #endregion
+
         #region Properties
 
         public Models.IapBuyed IapBuyed { get; set; }
@@ -124,7 +131,7 @@ namespace ModernWordreference.Views
             if (productLicense != null && productLicense.IsActive)
             {
                 // Show toast notification (thanks to support us)
-                ServiceFactory.ToastNotification.SendTitleAndText("Thank you !", "Thank you to support us !", "purchase");
+                ServiceFactory.ToastNotification.SendTitleAndText(_resourceLoader.GetString("ThankYou"), _resourceLoader.GetString("ThankYouToSupportUs"), "purchase");
 
                 // Save buyed IAP
                 if (name == "theWord")
@@ -149,7 +156,7 @@ namespace ModernWordreference.Views
             else
             {
                 // Show toast notification (something going wrong)
-                ServiceFactory.ToastNotification.SendTitleAndText("Purchase failed", "Something is going wrong with your purchase...", "purchase");
+                ServiceFactory.ToastNotification.SendTitleAndText(_resourceLoader.GetString("PurchaseFailed"), _resourceLoader.GetString("PurchaseFailedExtended"), "purchase");
             }
         }
 
@@ -163,7 +170,7 @@ namespace ModernWordreference.Views
             {
                 var sb = new StringBuilder();
 
-                sb.Append("You bought ");
+                sb.Append(_resourceLoader.GetString("YouBought"));
 
                 if (IapBuyed.Word > 0)
                 {
@@ -190,7 +197,8 @@ namespace ModernWordreference.Views
                         sb.Append("s");
                 }
 
-                sb.Append("! Thank you very much.");
+                sb.Append(" ! ");
+                sb.Append(_resourceLoader.GetString("ThankYouVeryMuch"));
 
                 ThankYouText.Text = sb.ToString();;
                 ThankYouText.Visibility = Visibility.Visible;
