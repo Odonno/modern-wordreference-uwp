@@ -48,7 +48,7 @@
 
         <StackPanel Grid.Row="0" Margin="10">
             <TextBlock x:Uid="/UIResources/ChooseDictionaryTitle" x:Name="PageTitle"
-                       FontSize="36" Text="Choose a dictionary"
+                       FontSize="28" Text="Choose a dictionary"
                        Style="{StaticResource HeaderTextBlockStyle}" />
             
             <TextBox x:Uid="/UIResources/SearchTextBox" x:Name="SearchTextBox"

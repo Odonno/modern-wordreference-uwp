@@ -82,6 +82,9 @@ namespace ModernWordreference.Views
                     { "From", SelectedDictionary.From },
                     { "To", SelectedDictionary.To }
                 });
+
+                // Go back
+                Frame.GoBack();
             }
         }
 
