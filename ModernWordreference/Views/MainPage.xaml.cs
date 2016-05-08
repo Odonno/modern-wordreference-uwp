@@ -83,11 +83,20 @@ namespace ModernWordreference.Views
 
             // Initialize Api Service
             ServiceFactory.Api.InitializeAsync();
+
+            // Add event when page is loaded
+            Loaded += Page_Loaded;
         }
 
         #endregion
 
         #region Events
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Add focus on search input
+            WordTextBox.Focus(FocusState.Programmatic);
+        }
 
         private void About_Click(object sender, RoutedEventArgs e)
         {
