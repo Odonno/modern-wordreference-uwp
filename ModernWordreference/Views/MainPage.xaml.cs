@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -55,6 +56,7 @@ namespace ModernWordreference.Views
                     from == "ar");
             }
         }
+        public bool IsNewTranslationCardReduced { get; set; } = false;
 
         #endregion
 
@@ -200,6 +202,22 @@ namespace ModernWordreference.Views
         private void CloseInfo_Click(object sender, RoutedEventArgs e)
         {
             InfoPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ReduceTextBlock_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (IsNewTranslationCardReduced)
+            {
+                UnreduceStoryboard.Begin();
+                ServiceFactory.Analytics.TrackEvent("UnreduceNewTranslationCard");
+            }
+            else
+            {
+                ReduceStoryboard.Begin();
+                ServiceFactory.Analytics.TrackEvent("ReduceNewTranslationCard");
+            }
+
+            IsNewTranslationCardReduced = !IsNewTranslationCardReduced;
         }
 
         #endregion        
@@ -409,6 +427,6 @@ namespace ModernWordreference.Views
             }
         }
 
-        #endregion
+        #endregion        
     }
 }
