@@ -21,15 +21,21 @@
                     </Style>
 
                     <DataTemplate x:Key="TranslationPartTemplate">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            
+                            <TextBlock Grid.Row="0" TextWrapping="Wrap">
                                 <Run FontWeight="Bold" Text="{Binding Path=Type}" />
                                 <Run Text="{Binding Path=Word}" />
                             </TextBlock>
 
-                            <TextBlock TextWrapping="Wrap" FontStyle="Italic" Text="{Binding Path=Sense}"
+                            <TextBlock Grid.Row="1"
+                                       TextWrapping="Wrap" FontStyle="Italic" Text="{Binding Path=Sense}"
                                        Visibility="{Binding Path=Sense, Converter={StaticResource NullToVisibilityConverter}}" />
-                        </StackPanel>
+                        </Grid>
                     </DataTemplate>
 
                     <DataTemplate x:Key="TranslationExampleTemplate">
@@ -37,7 +43,7 @@
                     </DataTemplate>
 
                     <DataTemplate x:Key="TranslationResultItemTemplate">
-                        <Grid Padding="0 5" BorderBrush="White" BorderThickness="0 0 0 2">
+                        <Grid Padding="0 5 0 15" BorderBrush="White" BorderThickness="0 0 0 2">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
                                 <ColumnDefinition />
@@ -49,15 +55,16 @@
                                           ItemTemplate="{StaticResource TranslationPartTemplate}">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="Margin" Value="0" />
+                                            <Setter Property="VerticalContentAlignment" Value="Top" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                 </ListView>
 
                                 <ListView ItemsSource="{Binding Path=FromExamples}"
-                                          IsHitTestVisible="False"
+                                          IsHitTestVisible="False" Margin="-10 0 0 0"
                                           ItemTemplate="{StaticResource TranslationExampleTemplate}" />
                             </StackPanel>
 
@@ -67,15 +74,16 @@
                                           ItemTemplate="{StaticResource TranslationPartTemplate}">
                                     <ListView.ItemContainerStyle>
                                         <Style TargetType="ListViewItem">
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="Padding" Value="0" />
+                                            <Setter Property="Margin" Value="0" />
+                                            <Setter Property="VerticalContentAlignment" Value="Top" />
                                         </Style>
                                     </ListView.ItemContainerStyle>
                                 </ListView>
 
                                 <ListView ItemsSource="{Binding Path=ToExamples}"
-                                          IsHitTestVisible="False"
+                                          IsHitTestVisible="False" Margin="-10 0 0 0"
                                           ItemTemplate="{StaticResource TranslationExampleTemplate}" />
                             </StackPanel>
                         </Grid>
