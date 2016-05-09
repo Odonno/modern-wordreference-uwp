@@ -50,7 +50,7 @@
             <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.Margin)" Storyboard.TargetName="NewTranslationHeaderGrid">
                 <DiscreteObjectKeyFrame KeyTime="0:0:0">
                     <DiscreteObjectKeyFrame.Value>
-                        <Thickness>0,0,0,3</Thickness>
+                        <Thickness>0</Thickness>
                     </DiscreteObjectKeyFrame.Value>
                 </DiscreteObjectKeyFrame>
             </ObjectAnimationUsingKeyFrames>
@@ -96,8 +96,8 @@
             <VisualStateGroup>
                 <VisualState x:Name="Large">
                     <VisualState.Setters>
-                        <Setter Target="SelectDictionaryButton.FontSize" Value="36" />
-                        <Setter Target="SwitchDictionaryButton.FontSize" Value="36" />
+                        <Setter Target="SelectDictionaryButton.FontSize" Value="30" />
+                        <Setter Target="SwitchDictionaryButton.FontSize" Value="30" />
                     </VisualState.Setters>
 
                     <VisualState.StateTriggers>
@@ -131,10 +131,10 @@
                 </Grid.RowDefinitions>
 
                 <Grid x:Name="NewTranslationHeaderGrid" Grid.Row="0" BorderBrush="Gray"
-                      BorderThickness="0 0 0 1" Margin="0 0 0 3">
+                      BorderThickness="0 0 0 1">
                     <TextBlock x:Uid="/UIResources/NewTranslationText" 
                                Foreground="{StaticResource ApplicationPageBackgroundBrush}"
-                               Text="New translation" Margin="0 -2 0 0" />
+                               Text="New translation" Margin="0 -4 0 0" />
 
                     <TextBlock x:Name="ReduceTextBlock" HorizontalAlignment="Right"
                                FontFamily="Segoe MDL2 Assets"
@@ -142,7 +142,7 @@
                                Text="&#57361;" Tapped="ReduceTextBlock_Tapped" />
                 </Grid>
 
-                <Grid Grid.Row="1" Margin="0 10">
+                <Grid Grid.Row="1" Margin="0 0 0 0">
                     <Grid.RowDefinitions>
                         <RowDefinition />
                         <RowDefinition Height="Auto" />
@@ -155,12 +155,14 @@
 
                     <!-- flags of current dictionary -->
                     <Image x:Name="FromImage" Grid.RowSpan="2" Grid.Column="0" 
-                           Source="/Images/Flags/en.png" Stretch="Fill" Height="100" />
+                           Source="/Images/Flags/en.png" Stretch="Fill" Width="150" Height="100"
+                           HorizontalAlignment="Right" />
                     <Image x:Name="ToImage" Grid.RowSpan="2" Grid.Column="1" 
-                           Source="/Images/Flags/fr.png" Stretch="Fill" Height="100" />
+                           Source="/Images/Flags/fr.png" Stretch="Fill" Width="150" Height="100"
+                           HorizontalAlignment="Left" />
 
-                    <Grid Grid.Row="1" Grid.ColumnSpan="2"
-                          RequestedTheme="Dark"
+                    <Grid Grid.Row="1" Grid.ColumnSpan="2" Margin="0 0 0 12"
+                          RequestedTheme="Dark" Width="300"
                           Background="{StaticResource ApplicationPageBackgroundBrush}" Opacity="0.9">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
@@ -168,20 +170,22 @@
                         </Grid.ColumnDefinitions>
 
                         <!-- switch languages -->
-                        <Button Grid.Row="1" Grid.Column="0"
+                        <Button Grid.Column="0"
+                                Width="150" HorizontalAlignment="Right"
                                 x:Name="SwitchDictionaryButton"
                                 Click="SwitchDictionary_Click"
                                 FontFamily="Segoe MDL2 Assets"
-                                FontSize="24" HorizontalAlignment="Stretch">
+                                FontSize="24">
                             &#xE8AB;
                         </Button>
 
                         <!-- select dictionary -->
-                        <Button Grid.Row="1" Grid.Column="1"
+                        <Button Grid.Column="1"
+                                Width="150" HorizontalAlignment="Left"
                                 x:Name="SelectDictionaryButton"
                                 Click="SelectDictionary_Click"
                                 FontFamily="Segoe MDL2 Assets"
-                                FontSize="24" HorizontalAlignment="Stretch">
+                                FontSize="24">
                             &#xE8FD;
                         </Button>
                     </Grid>
