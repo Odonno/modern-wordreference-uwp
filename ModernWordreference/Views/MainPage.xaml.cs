@@ -313,7 +313,12 @@ namespace ModernWordreference.Views
             {
                 // Show toast notification that nothing was found
                 ServiceFactory.ToastNotification.SendText(_resourceLoader.GetString("WordDoesNotExist"), "search");
-                ServiceFactory.Analytics.TrackEvent("NotFound");
+
+                ServiceFactory.Analytics.TrackEvent("NotFound", new Dictionary<string, string> {
+                    { "From", CurrentDictionary.From },
+                    { "To", CurrentDictionary.To },
+                    { "Word", word }
+                });
 
                 // End progress bar
                 UpdateProgressBarUI(false);
