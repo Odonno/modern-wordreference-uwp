@@ -1,10 +1,12 @@
-﻿using ModernWordreference.Services;
+﻿using ModernWordreference.Constants;
+using ModernWordreference.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.Connectivity;
@@ -26,6 +28,18 @@ namespace ModernWordreference.Views
     /// </summary>
     public sealed partial class ErrorPage : Page
     {
+        #region Fields
+
+        private readonly ResourceLoader _resourceLoader = ResourceLoader.GetForCurrentView("Resources");
+
+        #endregion
+
+        #region Properties
+
+        public Models.TranslationResult LastTranslation { get; set; }
+
+        #endregion
+
         #region Constructor
 
         public ErrorPage()
@@ -38,6 +52,26 @@ namespace ModernWordreference.Views
 
             // Back to the app when there is a network connection now
             NetworkInformation.NetworkStatusChanged += HandleBackToApp;
+
+            // Show last translation
+            ShowLastTranslation();
+        }
+
+        #endregion
+
+        #region Events
+
+        private void PlayAudio_Click(object sender, RoutedEventArgs e)
+        {
+            // Play audio
+            Audio.Play();
+
+            // Send telemetry
+            ServiceFactory.Analytics.TrackEvent("ListenPronunciation", new Dictionary<string, string> {
+                { "From", LastTranslation.Dictionary.From },
+                { "To", LastTranslation.Dictionary.To },
+                { "Word", LastTranslation.OriginalWord }
+            });
         }
 
         #endregion
@@ -55,6 +89,68 @@ namespace ModernWordreference.Views
                         Frame.GoBack();
                     });
             }
+
+        }
+
+        private async void ShowLastTranslation()
+        {
+            // Retrieve last saved translation
+            LastTranslation = await ServiceFactory.Storage.RetrieveFileAsync<Models.TranslationResult>(StorageConstants.LastTranslation);
+            if (LastTranslation != null)
+            {
+                UpdateLastTranslationUI();
+                LoadAudio();
+            }
+        }
+
+        private void LoadAudio()
+        {
+            if (LastTranslation.AudioSources.Count > 0)
+            {
+                // Reload audio element
+                Audio.Source = new Uri(LastTranslation.AudioSources[0]);
+            }
+
+            UpdateAudioUI();
+        }
+
+        #endregion
+
+        #region UI
+
+        private void UpdateLastTranslationUI()
+        {
+            // Set group key in each translation line
+            var primaryTranslationsGroup = LastTranslation.PrimaryTranslations
+                .GroupBy(_ => _resourceLoader.GetString("PrimaryTranslations"));
+            var additionalTranslationsGroup = LastTranslation.AdditionalTranslations
+                .GroupBy(_ => _resourceLoader.GetString("AdditionalTranslations"));
+            var compoundFormsTranslationsGroup = LastTranslation.CompoundForms
+                .GroupBy(_ => _resourceLoader.GetString("CompoundForms"));
+
+            // Fill collection view source with data
+            TranslationResultSource.Source = primaryTranslationsGroup
+                .Concat(additionalTranslationsGroup)
+                .Concat(compoundFormsTranslationsGroup);
+
+            // Refresh UI info too
+            WordTranslatedText.Text = LastTranslation.OriginalWord;
+            if (LastTranslation.Pronunciation != null)
+                PronunciationText.Text = LastTranslation.Pronunciation;
+            else
+                PronunciationText.Text = string.Empty;
+
+            // Set visibility
+            TranslationInfoGrid.Visibility = Visibility.Visible;
+            TranslationResultGrid.Visibility = Visibility.Visible;
+            DontBeAfraidText.Visibility = Visibility.Visible;
+        }
+
+        private void UpdateAudioUI()
+        {
+            AudioButton.Visibility = (LastTranslation.AudioSources.Count > 0) ?
+                Visibility.Visible :
+                Visibility.Collapsed;
         }
 
         #endregion

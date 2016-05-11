@@ -7,12 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{ThemeResource ApplicationPageBackgroundBrush}">
+    <Page.Resources>
+        <CollectionViewSource x:Name="TranslationResultSource" IsSourceGrouped="true" />
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundBrush}">
+         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState x:Name="Large">
                     <VisualState.Setters>
                         <Setter Target="PageTitle.FontSize" Value="46" />
+                        <Setter Target="CheckInternetText.FontSize" Value="26" />
+                        <Setter Target="DontBeAfraidText.FontSize" Value="26" />
                     </VisualState.Setters>
 
                     <VisualState.StateTriggers>
@@ -22,17 +34,70 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <StackPanel Margin="10 0" Orientation="Vertical">
+        <StackPanel Grid.Row="0" Margin="10 0" Orientation="Vertical">
             <TextBlock x:Uid="/UIResources/ErrorPageTitle" x:Name="PageTitle" 
-                       TextWrapping="Wrap" FontSize="36"
+                       TextWrapping="Wrap" FontSize="26"
                        Style="{StaticResource HeaderTextBlockStyle}"
                        Text="An error occured :(" />
 
-            <TextBlock x:Uid="/UIResources/CheckInternetText" TextWrapping="Wrap" FontSize="26" Margin="0 20 0 0"
+            <TextBlock x:Uid="/UIResources/CheckInternetText" x:Name="CheckInternetText"
+                       TextWrapping="Wrap" FontSize="16" Margin="0 20 0 0"
                        Text="Please check your internet connection." />
 
-            <TextBlock x:Uid="/UIResources/DontBeAfraidText" TextWrapping="Wrap" FontSize="26"
+            <TextBlock x:Uid="/UIResources/DontBeAfraidText" x:Name="DontBeAfraidText"
+                       TextWrapping="Wrap" FontSize="16" Visibility="Collapsed"
                        Text="But don't be afraid, we saved your last translation !" />
         </StackPanel>
-    </ScrollViewer>
+
+        <Grid x:Name="TranslationInfoGrid" Visibility="Collapsed" Grid.Row="1" 
+              Background="White" RequestedTheme="Light" Margin="0 10 0 0">
+            <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
+                <TextBlock x:Name="WordTranslatedText" FontSize="24" 
+                           VerticalAlignment="Center" 
+                           Foreground="{StaticResource ApplicationPageBackgroundBrush}"
+                           Margin="5 -3 5 0">
+                        test
+                </TextBlock>
+
+                <TextBlock x:Name="PronunciationText" VerticalAlignment="Center"
+                           Foreground="{StaticResource ApplicationPageBackgroundBrush}" 
+                           Margin="5 0">
+                        /test/
+                </TextBlock>
+
+                <Button x:Name="AudioButton" Click="PlayAudio_Click" Visibility="Collapsed"
+                        VerticalAlignment="Center" Margin="5 0"
+                        FontFamily="Segoe MDL2 Assets" FontSize="24"
+                        Style="{StaticResource TransparentButtonStyle}">
+                    &#xE768;
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="TranslationResultGrid" Visibility="Collapsed" Grid.Row="2">
+            <ListView x:Name="TranslationResultList"
+                      SelectionMode="None"
+                      ItemsSource="{Binding Source={StaticResource TranslationResultSource}}"
+                      ItemTemplate="{StaticResource TranslationResultItemTemplate}"
+                      ItemContainerStyle="{StaticResource TranslationResultContainerStyle}">
+                <ListView.GroupStyle>
+                    <GroupStyle HidesIfEmpty="True">
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Key}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+
+                        <GroupStyle.HeaderContainerStyle>
+                            <Style TargetType="ListViewHeaderItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            </Style>
+                        </GroupStyle.HeaderContainerStyle>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+            </ListView>
+        </Grid>
+
+        <MediaElement x:Name="Audio" AutoPlay="False" Height="0" Width="0" />
+    </Grid>
 </Page>
