@@ -271,14 +271,15 @@ namespace ModernWordreference.Views
 
         private async void HandleNetworkErrorAsync(object sender = null)
         {
-            if (!ServiceFactory.Network.IsInternetAvailable)
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher
-                    .RunAsync(CoreDispatcherPriority.High, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher
+                .RunAsync(CoreDispatcherPriority.High, () =>
+                {
+                    if (!ServiceFactory.Network.IsInternetAvailable &&
+                        Frame.CurrentSourcePageType.Name != "ErrorPage")
                     {
                         Frame.Navigate(typeof(ErrorPage));
-                    });
-            }
+                    }
+                });
         }
 
         private void SwitchDictionary()

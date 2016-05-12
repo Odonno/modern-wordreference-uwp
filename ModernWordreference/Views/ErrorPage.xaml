@@ -64,13 +64,6 @@
                            Margin="5 0">
                         /test/
                 </TextBlock>
-
-                <Button x:Name="AudioButton" Click="PlayAudio_Click" Visibility="Collapsed"
-                        VerticalAlignment="Center" Margin="5 0"
-                        FontFamily="Segoe MDL2 Assets" FontSize="24"
-                        Style="{StaticResource TransparentButtonStyle}">
-                    &#xE768;
-                </Button>
             </StackPanel>
         </Grid>
 
@@ -97,7 +90,5 @@
                 </ListView.GroupStyle>
             </ListView>
         </Grid>
-
-        <MediaElement x:Name="Audio" AutoPlay="False" Height="0" Width="0" />
     </Grid>
 </Page>

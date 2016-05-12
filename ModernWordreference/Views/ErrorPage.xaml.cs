@@ -59,23 +59,6 @@ namespace ModernWordreference.Views
 
         #endregion
 
-        #region Events
-
-        private void PlayAudio_Click(object sender, RoutedEventArgs e)
-        {
-            // Play audio
-            Audio.Play();
-
-            // Send telemetry
-            ServiceFactory.Analytics.TrackEvent("ListenPronunciation", new Dictionary<string, string> {
-                { "From", LastTranslation.Dictionary.From },
-                { "To", LastTranslation.Dictionary.To },
-                { "Word", LastTranslation.OriginalWord }
-            });
-        }
-
-        #endregion
-
         #region Logic
 
         private async void HandleBackToApp(object sender)
@@ -99,19 +82,7 @@ namespace ModernWordreference.Views
             if (LastTranslation != null)
             {
                 UpdateLastTranslationUI();
-                LoadAudio();
             }
-        }
-
-        private void LoadAudio()
-        {
-            if (LastTranslation.AudioSources.Count > 0)
-            {
-                // Reload audio element
-                Audio.Source = new Uri(LastTranslation.AudioSources[0]);
-            }
-
-            UpdateAudioUI();
         }
 
         #endregion
@@ -144,13 +115,6 @@ namespace ModernWordreference.Views
             TranslationInfoGrid.Visibility = Visibility.Visible;
             TranslationResultGrid.Visibility = Visibility.Visible;
             DontBeAfraidText.Visibility = Visibility.Visible;
-        }
-
-        private void UpdateAudioUI()
-        {
-            AudioButton.Visibility = (LastTranslation.AudioSources.Count > 0) ?
-                Visibility.Visible :
-                Visibility.Collapsed;
         }
 
         #endregion
