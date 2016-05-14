@@ -35,6 +35,7 @@ namespace ModernWordreference.Views
 
         #region Properties
 
+        public IEnumerable<Models.Dictionary> AllDictionaries { get; set; }
         public IEnumerable<Models.Dictionary> RecommendedDictionaries { get; set; }
         public IEnumerable<Models.Dictionary> DefaultDictionaries { get; set; }
         public Models.Dictionary SelectedDictionary { get; set; }
@@ -68,7 +69,10 @@ namespace ModernWordreference.Views
             var list = sender as ListView;
             var dictionary = list?.SelectedItem as Models.Dictionary;
 
-            if (dictionary != null)
+            // Check if we have really change of dictionary
+            if (dictionary != null && 
+                (SelectedDictionary.From != dictionary.From ||
+                SelectedDictionary.To != dictionary.To))
             {
                 SelectedDictionary = dictionary;
                 DictionariesList.SelectedItem = SelectedDictionary;
@@ -102,6 +106,9 @@ namespace ModernWordreference.Views
         {
             _initializing = true;
 
+            // Set dictionary list (all)
+            AllDictionaries = ServiceFactory.Dictionary.GetAll();
+
             // Set dictionary list (recommended)
             RecommendedDictionaries = new List<Models.Dictionary>
             {
@@ -110,7 +117,8 @@ namespace ModernWordreference.Views
             };
 
             // Set dictionary list (default)
-            DefaultDictionaries = ServiceFactory.Dictionary.GetAll().Except(RecommendedDictionaries);
+            DefaultDictionaries = ServiceFactory.Dictionary.GetAll()
+                .Except(RecommendedDictionaries);
 
             // Refresh UI
             UpdateDictionariesUI();
@@ -124,27 +132,43 @@ namespace ModernWordreference.Views
 
         private void UpdateDictionariesUI()
         {
-            Func<Models.Dictionary, string, bool> containsFromLanguage = 
+            _initializing = true;
+
+            Func<Models.Dictionary, string, bool> dictionaryContainsFromLanguage =
                 (Models.Dictionary d, string s) => d.FromLanguage.ToLower().Contains(s.ToLower());
-            Func<Models.Dictionary, string, bool> containsToLanguage =
+
+            Func<Models.Dictionary, string, bool> dictionaryContainsToLanguage =
                 (Models.Dictionary d, string s) => d.ToLanguage.ToLower().Contains(s.ToLower());
 
+            Func<IEnumerable<IGrouping<string, Models.Dictionary>>, Models.Dictionary, bool> groupContainsDictionary =
+                (IEnumerable<IGrouping<string, Models.Dictionary>> groupList, Models.Dictionary d) => groupList.Any(g => g.Any(d2 => d == d2));
+
             // Set group key in each dictionary
-            var recommendGroup = RecommendedDictionaries
-                .Where(dictionary => Search == null || containsFromLanguage(dictionary, Search) || containsToLanguage(dictionary, Search))
+            var searchGroupList = AllDictionaries
+                .Where(dictionary => !string.IsNullOrWhiteSpace(Search) &&
+                                     (dictionaryContainsFromLanguage(dictionary, Search) ||
+                                     dictionaryContainsToLanguage(dictionary, Search)))
+                .GroupBy(_ => _resourceLoader.GetString("SearchedDictionaries"));
+
+            var recommendGroupList = RecommendedDictionaries
+                .Where(dictionary => !groupContainsDictionary(searchGroupList, dictionary))
                 .GroupBy(_ => _resourceLoader.GetString("Recommended"));
-            var defaultGroup = DefaultDictionaries
-                .Where(dictionary => Search == null || containsFromLanguage(dictionary, Search) || containsToLanguage(dictionary, Search))
+
+            var defaultGroupList = DefaultDictionaries
+                .Where(dictionary => !groupContainsDictionary(searchGroupList, dictionary))
                 .GroupBy(_ => _resourceLoader.GetString("AllDictionaries"));
 
             // Fill collection view source with data
-            DictionariesSource.Source = recommendGroup
-                .Concat(defaultGroup);
+            DictionariesSource.Source = searchGroupList
+                .Concat(recommendGroupList)
+                .Concat(defaultGroupList);
 
             // Retrieve currently selected dictionary
             var savedDictionary = ServiceFactory.Storage.Retrieve<Models.Dictionary>(StorageConstants.CurrentDictionary);
             SelectedDictionary = ServiceFactory.Dictionary.Get(savedDictionary.From, savedDictionary.To);
             DictionariesList.SelectedItem = SelectedDictionary;
+
+            _initializing = false;
         }
 
         #endregion        

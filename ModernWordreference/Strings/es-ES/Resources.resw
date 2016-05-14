@@ -141,6 +141,9 @@
   <data name="Recommended" xml:space="preserve">
     <value>Recommendia</value>
   </data>
+  <data name="SearchedDictionaries" xml:space="preserve">
+    <value>Diccionarios de búsqueda</value>
+  </data>
   <data name="ThankYou" xml:space="preserve">
     <value>Gracias !</value>
   </data>

@@ -10,7 +10,7 @@ namespace ModernWordreference.Services
     public interface IDictionaryService
     {
         void Initialize();
-        List<Models.Dictionary> GetAll();
+        IEnumerable<Models.Dictionary> GetAll();
         Models.Dictionary Get(string from, string to);
         string GetLanguage(string countryCode);
     }
@@ -87,9 +87,9 @@ namespace ModernWordreference.Services
             };
         }
 
-        public List<Models.Dictionary> GetAll()
+        public IEnumerable<Models.Dictionary> GetAll()
         {
-            return _dictionaries.Where(d => d.Active).ToList();
+            return _dictionaries.Where(d => d.Active);
         }
 
         public Models.Dictionary Get(string from, string to)

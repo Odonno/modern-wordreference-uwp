@@ -38,6 +38,7 @@ namespace ModernWordreference
 
             // Set screen size
             SetScreenSize();
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
