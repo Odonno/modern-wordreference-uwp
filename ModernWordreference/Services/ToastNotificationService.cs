@@ -58,7 +58,7 @@ namespace ModernWordreference.Services
             if (group != null)
                 toast.Group = group;
             if (shouldBeRemoved)
-                toast.ExpirationTime = DateTimeOffset.Now.AddSeconds(7);
+                toast.ExpirationTime = DateTimeOffset.Now.AddSeconds(5);
 
             ToastNotificationManager.CreateToastNotifier().Show(toast);
         }
